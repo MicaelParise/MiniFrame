@@ -23,7 +23,8 @@
   },
   "scripts": {
     "lint": "php-cs-fixer fix --dry-run --diff",
-    "analyse": "phpstan analyse src"
+    "analyse": "phpstan analyse src",
+    "command": "php command.php"
   },
   "minimum-stability": "stable",
   "prefer-stable": true

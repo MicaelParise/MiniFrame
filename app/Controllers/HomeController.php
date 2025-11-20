@@ -9,6 +9,12 @@ class HomeController
 {
     public function index(Request $request, Response $response, array $test)
     {
-        echo "Hello World!";
+        $response::json([
+            'error' => false,
+            'success' => true,
+            'data' => [
+                'version' => '1.0.0'
+            ]
+        ]);
     }
 }
