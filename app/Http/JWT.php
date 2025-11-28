@@ -2,9 +2,11 @@
 
 namespace App\Http;
 
+use App\Core\Env;
+
 class JWT
 {
-    private static string $secret = 'secret-key';
+    private static string $secret = Env::get('JWT_SECRET_KEY', 'secret-key');
 
     public static function generate(array $data = [])
     {

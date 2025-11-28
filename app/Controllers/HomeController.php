@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Env;
 use App\Http\Request;
 use App\Http\Response;
 
@@ -9,12 +10,18 @@ class HomeController
 {
     public function index(Request $request, Response $response, array $test)
     {
-        $response::json([
+        /*$response::json([
             'error' => false,
             'success' => true,
             'data' => [
-                'version' => '1.0.0'
+                'version' => '1.0.0',
+                'appName' => Env::get('APP_NAME', 'MiniFrame')
             ]
+        ]);*/
+
+        Response::view('welcome', [
+            'title' => 'Titilo Personalizado',
+            'version' => '1.0.0'
         ]);
     }
 }

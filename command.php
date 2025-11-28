@@ -39,4 +39,6 @@ $pdo = initPdo();
 
 createUsersTable($pdo);
 
+//echo base64_encode(random_bytes(32)) . PHP_EOL; // Gerar uma Key aleatoria em base64
+
 echo "Fim do comando!";
