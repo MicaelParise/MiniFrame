@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Core\Env;
 use App\Http\Request;
 use App\Http\Response;
 
@@ -15,7 +14,7 @@ class HomeController
             'success' => true,
             'data' => [
                 'version' => '1.0.0',
-                'appName' => Env::get('APP_NAME', 'MiniFrame')
+                'appName' => env('APP_NAME', 'MiniFrame')
             ]
         ]);*/
 

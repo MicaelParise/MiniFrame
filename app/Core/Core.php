@@ -4,6 +4,7 @@ namespace App\Core;
 
 use App\Http\Request;
 use App\Http\Response;
+use App\Middlewares\Kernel;
 use Throwable;
 
 class Core
@@ -48,8 +49,11 @@ class Core
                 {
                     $instance = new $controller();
 
-                    //! Middlewares serão chamadas aqui!!!
-                    //! Exemplo: Middleware::handle($request, $response);
+                    $middlewares = Kernel::resolve($route['middlewares']);
+
+                    foreach ($middlewares as $middleware) {
+                        (new $middleware())->handle($request, $response);
+                    }
 
                     $instance->$action($request, $response, $matches);
                 }
