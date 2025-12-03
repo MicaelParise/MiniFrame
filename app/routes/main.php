@@ -2,8 +2,11 @@
 
 use App\Http\Route;
 
-// Inclui as rotas agrupadas em outras pastas
-$routesPath = __DIR__;
+/**
+ * -------------------------------------------------------
+ * Registro manual de rotas dos módulos
+ * -------------------------------------------------------
+ */
 
-require $routesPath . '/web/main.php';
-require $routesPath . '/api/main.php';
+loadModuleRoutes('Home');
+loadModuleRoutes('User');

@@ -6,6 +6,9 @@ use Exception;
 
 class Env
 {
+    /**
+     * Carrega as variáveis de ambiente do arquivo .env
+     */
     public static function load(string $path): void
     {
         if (!file_exists($path)) {
@@ -15,18 +18,18 @@ class Env
         $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         foreach ($lines as $line) {
-            // Ignorar comentários no arquivo .env
+            // Ignora comentários
             if (str_starts_with(trim($line), '#')) {
                 continue;
             }
 
-            // Divide a chave e o valor da variável
+            // Divide a chave e o valor
             [$name, $value] = array_map('trim', explode('=', $line, 2));
 
             // Remove aspas do valor
             $value = trim($value, "\"'");
 
-            // Define na env se não existir ainda
+            // Define apenas se ainda não existir
             if (!isset($_ENV[$name]) && !getenv($name)) {
                 putenv("{$name}={$value}");
                 $_ENV[$name] = $value;
@@ -35,11 +38,16 @@ class Env
         }
     }
 
+    /**
+     * Retorna uma variável de ambiente
+     */
     public static function get(string $key, mixed $default = null): mixed
     {
         $value = $_ENV[$key] ?? getenv($key);
 
-        if ($value === false || $value === null) return $default;
+        if ($value === false || $value === null) {
+            return $default;
+        }
 
         return match (strtolower($value)) {
             'true', '(true)'   => true,

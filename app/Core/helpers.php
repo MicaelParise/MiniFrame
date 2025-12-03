@@ -7,24 +7,18 @@ use App\Http\Route;
  * -------------------------------------------------------
  * Funções globais do MiniFrame
  * -------------------------------------------------------
- * Disponíveis em qualquer parte da aplicação.
+ * Disponíveis globalmente em qualquer parte da aplicação.
  * -------------------------------------------------------
  */
 
-if (!function_exists('env'))
-{
-    /**
-     * Retorna o valor de uma variável de ambiente (.env).
-     * Exemplo: env('APP_NAME', 'MiniFrame')
-     */
+if (!function_exists('env')) {
     function env(string $key, mixed $default = null): mixed
     {
         return Env::get($key, $default);
     }
 }
 
-if (!function_exists('dd'))
-{
+if (!function_exists('dd')) {
     function dd(...$vars): void
     {
         echo "<pre style='background:#111;color:#0f0;padding:10px;border-radius:5px;'>";
@@ -34,8 +28,7 @@ if (!function_exists('dd'))
     }
 }
 
-if (!function_exists('dump'))
-{
+if (!function_exists('dump')) {
     function dump(...$vars): void
     {
         echo "<pre style='background:#111;color:#0f0;padding:10px;border-radius:5px;'>";
@@ -44,18 +37,12 @@ if (!function_exists('dump'))
     }
 }
 
-if (!function_exists('route'))
-{
-    /**
-     * Retorna a URL de uma rota nomeada.
-     * Exemplo: route('user.show', ['id' => 10]);
-     */
+if (!function_exists('route')) {
     function route(string $name, array $params = [], bool $absolute = false): string
     {
         $path = Route::getPathByName($name, $params) ?? '#';
 
-        if ($absolute && $path !== '#')
-        {
+        if ($absolute && $path !== '#') {
             $scheme = $_SERVER['REQUEST_SCHEME'] ?? 'http';
             $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
             return $scheme . '://' . $host . $path;
@@ -65,12 +52,7 @@ if (!function_exists('route'))
     }
 }
 
-if (!function_exists('asset'))
-{
-    /**
-     * Retorna o caminho absoluto para um arquivo público.
-     * Exemplo: asset('css/style.css');
-     */
+if (!function_exists('asset')) {
     function asset(string $path): string
     {
         $scheme = $_SERVER['REQUEST_SCHEME'] ?? 'http';
@@ -79,12 +61,7 @@ if (!function_exists('asset'))
     }
 }
 
-if (!function_exists('url'))
-{
-    /**
-     * Retorna a URL base ou anexa um caminho a ela.
-     * Exemplo: url('dashboard') → http://localhost/dashboard
-     */
+if (!function_exists('url')) {
     function url(string $path = ''): string
     {
         $scheme = $_SERVER['REQUEST_SCHEME'] ?? 'http';
@@ -93,12 +70,7 @@ if (!function_exists('url'))
     }
 }
 
-if (!function_exists('redirect'))
-{
-    /**
-     * Redireciona o usuário para uma URL.
-     * Exemplo: redirect('/login');
-     */
+if (!function_exists('redirect')) {
     function redirect(string $path, int $status = 302): void
     {
         http_response_code($status);
@@ -107,48 +79,50 @@ if (!function_exists('redirect'))
     }
 }
 
-if (!function_exists('config'))
-{
-    /**
-     * Lê valores dos arquivos de configuração em /config
-     * Exemplo: config('app.appname');
-     */
+if (!function_exists('config')) {
     function config(string $key, mixed $default = null): mixed
     {
         static $cache = [];
 
         $segments = explode('.', $key);
         $file = array_shift($segments);
-        $path = __DIR__ . '/../../config/' . $file . '.php';
+        $path = __DIR__ . '/../config/' . $file . '.php';
 
-        // Carrega e faz cache do arquivo de configuração
-        if (!isset($cache[$file]))
-        {
-            if (file_exists($path))
-            {
+        if (!isset($cache[$file])) {
+            if (file_exists($path)) {
                 $cache[$file] = require $path;
-            }
-            else
-            {
+            } else {
                 return $default;
             }
         }
 
         $config = $cache[$file];
 
-        // Percorre o array pelas chaves (ex: database.connections.mysql)
-        foreach ($segments as $segment)
-        {
-            if (is_array($config) && array_key_exists($segment, $config))
-            {
+        foreach ($segments as $segment) {
+            if (is_array($config) && array_key_exists($segment, $config)) {
                 $config = $config[$segment];
-            }
-            else
-            {
+            } else {
                 return $default;
             }
         }
 
         return $config;
+    }
+}
+
+if (!function_exists('loadModuleRoutes')) {
+    /**
+     * Carrega o arquivo de rotas de um módulo específico.
+     * Exemplo: loadModuleRoutes('User');
+     */
+    function loadModuleRoutes(string $module): void
+    {
+        $routesFile = __DIR__ . "/../Modules/{$module}/routes.php";
+
+        if (!file_exists($routesFile)) {
+            throw new Exception("Arquivo de rotas não encontrado para o módulo: {$module}");
+        }
+
+        require_once $routesFile;
     }
 }

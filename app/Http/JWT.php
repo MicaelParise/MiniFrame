@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-
 class JWT
 {
     private static string $secret = env('JWT_SECRET_KEY', 'secret-key');

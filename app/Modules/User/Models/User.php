@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\User\Models;
 
+use App\Core\Database;
 use PDO;
 
 class User extends Database

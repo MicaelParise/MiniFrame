@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Modules\Home\Controller;
 
 use App\Http\Request;
 use App\Http\Response;
@@ -19,7 +19,7 @@ class HomeController
         ]);*/
 
         Response::view('welcome', [
-            'title' => 'Titilo Personalizado',
+            'title' => 'Titulo Personalizado',
             'version' => '1.0.0'
         ]);
     }

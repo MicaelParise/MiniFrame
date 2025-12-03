@@ -10,15 +10,15 @@ class View
     protected static ?string $layout = null;
 
     /**
-     * Define o layout base
+     * Define o layout base.
      */
     public static function extends(string $layout): void
     {
-        self::$layout = __DIR__ . '/../../app/Views/layouts/' . $layout . '.php';
+        self::$layout = __DIR__ . '/../Views/layouts/' . $layout . '.php';
     }
 
     /**
-     * Inicia uma seção de conteúdo
+     * Inicia uma seção.
      */
     public static function start(string $name): void
     {
@@ -27,7 +27,7 @@ class View
     }
 
     /**
-     * Encerra uma seção
+     * Encerra a seção.
      */
     public static function end(): void
     {
@@ -36,7 +36,7 @@ class View
     }
 
     /**
-     * Renderiza uma seção dentro do layout
+     * Renderiza o conteúdo de uma seção.
      */
     public static function yield(string $name): void
     {
@@ -44,11 +44,11 @@ class View
     }
 
     /**
-     * Inclui um componente
+     * Inclui um componente.
      */
     public static function component(string $name, array $data = []): void
     {
-        $path = __DIR__ . '/../../app/Views/components/' . $name . '.php';
+        $path = __DIR__ . '/../Views/components/' . $name . '.php';
         if (file_exists($path)) {
             extract($data, EXTR_SKIP);
             include $path;
@@ -56,30 +56,28 @@ class View
     }
 
     /**
-     * Renderiza a view com ou sem layout
+     * Renderiza uma view (com ou sem layout).
      */
     public static function render(string $view, array $data = []): void
     {
         extract($data, EXTR_SKIP);
 
-        $viewPath = __DIR__ . '/../../app/Views/' . $view . '.php';
+        $viewPath = __DIR__ . '/../Views/' . $view . '.php';
+
         if (!file_exists($viewPath)) {
             throw new Exception("View '{$view}' não encontrada.");
         }
 
-        // Renderiza a view principal
         ob_start();
         include $viewPath;
         $content = ob_get_clean();
 
-        // Se tiver layout, renderiza dentro dele
         if (self::$layout && file_exists(self::$layout)) {
             include self::$layout;
         } else {
             echo $content;
         }
 
-        // Limpa o estado após renderizar
         self::$sections = [];
         self::$layout = null;
     }

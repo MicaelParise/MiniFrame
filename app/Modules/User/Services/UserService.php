@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Modules\User\Services;
 
 use App\Http\JWT;
-use App\Models\User;
+use App\Modules\User\Models\User;
 use App\Utils\Validator;
 use Exception;
 use PDOException;
