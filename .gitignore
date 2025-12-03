@@ -1,3 +1,4 @@
 .env
 vendor
-/storage
+/database/database.sqlite
+/database/storage/*

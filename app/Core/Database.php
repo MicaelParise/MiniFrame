@@ -12,7 +12,7 @@ class Database
      */
     public static function getConnection(): PDO
     {
-        $dbPath = __DIR__ . '/../../storage';
+        $dbPath = __DIR__ . '/../../database';
         $dbFile = $dbPath . '/database.sqlite';
 
         // Garante que o diretório exista
